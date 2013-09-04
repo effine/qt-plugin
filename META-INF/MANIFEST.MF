@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Qt-plugin
+Bundle-SymbolicName: qt-plugin;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: c3itop.qt.activator.Activator
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.ui.console,
+ org.eclipse.debug.core
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Eclipse-AutoStart: true
+Import-Package: org.eclipse.ui.ide,
+ org.eclipse.ui.internal.ide,
+ org.eclipse.ui.internal.ide.dialogs
