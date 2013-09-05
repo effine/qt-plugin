@@ -17,6 +17,8 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
@@ -26,7 +28,8 @@ import org.eclipse.ui.console.MessageConsoleStream;
 import c3itop.qt.console.ConsoleMessage;
 import c3itop.qt.util.ProjectHandle;
 
-public class QtConfigureContextAction implements IObjectActionDelegate {
+public class QtConfigureContextAction implements IObjectActionDelegate,
+		IWorkbenchWindowActionDelegate {
 
 	private IProject project;
 
@@ -89,6 +92,12 @@ public class QtConfigureContextAction implements IObjectActionDelegate {
 	}
 
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
+	}
+
+	public void dispose() {
+	}
+
+	public void init(IWorkbenchWindow window) {
 	}
 
 }

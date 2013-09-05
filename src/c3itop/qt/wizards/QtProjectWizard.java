@@ -17,10 +17,14 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
@@ -54,12 +58,12 @@ public class QtProjectWizard extends Wizard implements INewWizard {
 
 	@Override
 	public boolean performFinish() {
-		fileHandle = new FileHandle();
+		final String projectName = pageOne.getProjectName();
 
 		final String cppName = pageTwo.getCppName();
 		final String proNmae = pageTwo.getProName();
-		final String projectName = pageOne.getProjectName();
 		final String projectDir = pageOne.getProjectHandle().getName();
+		fileHandle = new FileHandle();
 
 		/* 获取工作区 */
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
@@ -77,22 +81,25 @@ public class QtProjectWizard extends Wizard implements INewWizard {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-
 		/* 刷新本地资源 */
 		// project.refreshLocal(IResource.DEPTH_INFINITE, null);
+		System.out.println("-------------000000000000");
+		/** 使用IRunnableWithProgress接口意味着在执行doFinish()方法时不必编写显示进度条的所有UI元素 */
+		// ProgressMonitorDialog pmd = new ProgressMonitorDialog(null);
 
 		IRunnableWithProgress rp = new IRunnableWithProgress() {
 			public void run(IProgressMonitor monitor)
 					throws InvocationTargetException, InterruptedException {
 				try {
+					System.out.println("---------11111111");
 					fileHandle.creadFile(projectDir, cppName, monitor);
 					fileHandle.creadFile(projectDir, proNmae, monitor);
+					System.out.println("---------2222222222");
 				} finally {
 					monitor.done();
 				}
 			}
 		};
-
 		try {
 			getContainer().run(true, false, rp);
 		} catch (InvocationTargetException e) {
@@ -100,6 +107,7 @@ public class QtProjectWizard extends Wizard implements INewWizard {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		System.out.println("-------------66666666666666");
 		return true;
 	}
 
@@ -109,7 +117,17 @@ public class QtProjectWizard extends Wizard implements INewWizard {
 	 * file.
 	 */
 	private void doFinish() {
+	}
 
+	/** 向导页没有到最后也的时候是否能完成 */
+	@Override
+	public boolean canFinish() {
+		return true;
+	}
+
+	/** 清理本地资源，如图像、剪切板等有该类创造的资源，该方法遵循谁创建谁销毁的Eclipse主题 */
+	@Override
+	public void dispose() {
 	}
 
 	/**
@@ -119,5 +137,4 @@ public class QtProjectWizard extends Wizard implements INewWizard {
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
 	}
-
 }

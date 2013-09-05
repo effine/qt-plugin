@@ -52,15 +52,20 @@ public class QtProjectWizardPageTwo extends WizardPage {
 
 		proName.setText(onePage.getProjectName() + ".pro");
 		cppName.setText(onePage.getProjectName() + ".cpp");
-
 	}
 
 	public String getCppName() {
-		return cppName.getText();
+
+		String cname = cppName.getText().trim();
+		if (null == cname || "".equals(cname))
+			return null;
+		return cname;
 	}
 
 	public String getProName() {
-		return proName.getText();
+		String pname = proName.getText().trim();
+		if (null == pname || "".equals(pname))
+			return null;
+		return pname;
 	}
-
 }

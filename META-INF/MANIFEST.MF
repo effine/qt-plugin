@@ -9,7 +9,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.ui.console,
- org.eclipse.debug.core
+ org.eclipse.debug.core,
+ org.eclipse.equinox.registry
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Eclipse-AutoStart: true
 Import-Package: org.eclipse.ui.ide,
