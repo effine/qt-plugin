@@ -25,7 +25,7 @@ import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 
-import c3itop.qt.console.ConsoleMessage;
+import c3itop.qt.console.CustomConsole;
 import c3itop.qt.util.FileHandle;
 import c3itop.qt.util.ProjectHandle;
 
@@ -81,15 +81,15 @@ public class QtNmakeContextAction implements IObjectActionDelegate,
 
 			String line = null;
 			while ((line = br.readLine()) != null) {
-				ConsoleMessage.consoleInfo += "\n" + br.readLine();
+				CustomConsole.consoleInfo += "\n" + br.readLine();
 			}
 
 			if (proc.waitFor() != 0) {
 				if (proc.exitValue() == 1)
 					// prop.exitValue()表示退出返回值;(0:表示正常结束，1：非正常结束)
-					ConsoleMessage.consoleInfo += "\n" + "命令执行失败!";
+					CustomConsole.consoleInfo += "\n" + "命令执行失败!";
 			}
-			consoleStream.println(ConsoleMessage.consoleInfo); // 将得到的信息输出到Console
+			consoleStream.println(CustomConsole.consoleInfo); // 将得到的信息输出到Console
 			br.close();
 			ips.close();
 

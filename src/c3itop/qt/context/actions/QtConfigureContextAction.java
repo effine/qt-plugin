@@ -19,13 +19,8 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-import org.eclipse.ui.console.ConsolePlugin;
-import org.eclipse.ui.console.IConsole;
-import org.eclipse.ui.console.IConsoleManager;
-import org.eclipse.ui.console.MessageConsole;
-import org.eclipse.ui.console.MessageConsoleStream;
 
-import c3itop.qt.console.ConsoleMessage;
+import c3itop.qt.console.CustomConsole;
 import c3itop.qt.util.ProjectHandle;
 
 public class QtConfigureContextAction implements IObjectActionDelegate,
@@ -45,18 +40,6 @@ public class QtConfigureContextAction implements IObjectActionDelegate,
 				"qmake\\win32\\mkspecs\\win32-qt483-msvc2010", "-d", qtBatPath };
 
 		Runtime runtime = Runtime.getRuntime(); // 获得JVM的运行环境
-		MessageConsole mc = new MessageConsole("c3itop console", null);
-
-		/* 获得Console的管理器 */
-		IConsoleManager cmanager = ConsolePlugin.getDefault()
-				.getConsoleManager();
-
-		/* 添加console到console管理器 */
-		cmanager.addConsoles(new IConsole[] { mc });
-		MessageConsoleStream consoleStream = mc.newMessageStream();
-
-		/* 运行的时候，如console视图没有打开则打开Console视图 */
-		cmanager.showConsoleView(mc);
 
 		try {
 			Process proc = runtime.exec(conf);// 另起一个进程,执行命令
@@ -66,14 +49,14 @@ public class QtConfigureContextAction implements IObjectActionDelegate,
 			BufferedReader br = new BufferedReader(ipsr);
 			String line = null;
 			while ((line = br.readLine()) != null) {
-				ConsoleMessage.consoleInfo += "\n" + br.readLine();
+				CustomConsole.consoleInfo += "\n" + br.readLine();
 			}
 
 			if (proc.waitFor() != 0) {
 				if (proc.exitValue() == 1) // prop.exitValue()表示退出返回值;(0:表示正常结束，1：非正常结束)
-					ConsoleMessage.consoleInfo += "命令执行失败!";
+					CustomConsole.consoleInfo += "命令执行失败!";
 			}
-			consoleStream.println(ConsoleMessage.consoleInfo);
+			CustomConsole.getConsole();
 			/*
 			 * br.close(); ips.close();
 			 */
