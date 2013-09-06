@@ -34,6 +34,15 @@
                toolbarPath="conf_separator"
                tooltip="Configure">
          </action>
+         <action
+               class="c3itop.qt.actions.TestAction"
+               icon="icons/recycle.jpg"
+               id="qt-plugin.action1"
+               label="Test"
+               menubarPath="c3itop.qt.conf_menu/gmk2"
+               toolbarPath="conf_separator"
+               tooltip="Test">
+         </action>
       </actionSet>
    </extension>
    <extension
@@ -65,6 +74,12 @@
                class="c3itop.qt.context.actions.CleanAllAction"
                id="c3itop.qt.cleanAllProject"
                label="%cleanAllAction">
+         </action>
+         <action
+               class="c3itop.qt.context.actions.TestContextAction"
+               icon="icons/sample.gif"
+               id="c3itop.qt.testAction"
+               label="Test">
          </action>
       </objectContribution>
    </extension>

@@ -14,10 +14,6 @@ public class CleanAllAction implements IObjectActionDelegate {
 
 	public void run(IAction arg0) {
 
-		/*
-		 * ResourcesPlugin.getWorkspace().build(
-		 * IncrementalProjectBuilder.CLEAN_BUILD, monitor);
-		 */
 	}
 
 	public void selectionChanged(IAction arg0, ISelection arg1) {

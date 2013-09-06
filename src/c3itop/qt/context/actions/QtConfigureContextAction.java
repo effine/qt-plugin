@@ -56,7 +56,7 @@ public class QtConfigureContextAction implements IObjectActionDelegate,
 				if (proc.exitValue() == 1) // prop.exitValue()表示退出返回值;(0:表示正常结束，1：非正常结束)
 					CustomConsole.consoleInfo += "命令执行失败!";
 			}
-			CustomConsole.getConsole();
+			CustomConsole.printConsole(null);
 			/*
 			 * br.close(); ips.close();
 			 */

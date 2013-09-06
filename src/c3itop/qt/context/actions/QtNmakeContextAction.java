@@ -31,7 +31,6 @@ import c3itop.qt.util.ProjectHandle;
 
 public class QtNmakeContextAction implements IObjectActionDelegate,
 		IWorkbenchWindowActionDelegate {
-	private ISelection selection;
 
 	private IProject project;
 
