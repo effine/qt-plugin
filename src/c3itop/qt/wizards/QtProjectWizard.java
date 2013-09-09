@@ -58,19 +58,26 @@ public class QtProjectWizard extends Wizard implements INewWizard {
 
 	@Override
 	public boolean performFinish() {
+		/* 获得向导One输入的工程名 */
 		final String projectName = pageOne.getProjectName();
 
-		final String cppName = pageTwo.getCppName();
-		final String proNmae = pageTwo.getProName();
+		/* 获得向导Two输入的cpp、pro文件名 */
+		final String cppName = pageTwo.getCppName("cpp");
+		final String proNmae = pageTwo.getCppName("pro");
+
+		/* 获得向导选择的工程位置 */
 		final String projectDir = pageOne.getProjectHandle().getName();
 		fileHandle = new FileHandle();
 
 		/* 获取工作区 */
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IProject project = root.getProject(projectName);
+
 		IWorkspace workspace = root.getWorkspace();
 		IProjectDescription description = workspace
 				.newProjectDescription(project.getName());
+
+		/* 参数为空，表示在默认工作空间下创建工程 */
 		description.setLocation(null);
 
 		try {
@@ -81,42 +88,19 @@ public class QtProjectWizard extends Wizard implements INewWizard {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-		/* 刷新本地资源 */
-		// project.refreshLocal(IResource.DEPTH_INFINITE, null);
-		System.out.println("-------------000000000000");
-		/** 使用IRunnableWithProgress接口意味着在执行doFinish()方法时不必编写显示进度条的所有UI元素 */
-		// ProgressMonitorDialog pmd = new ProgressMonitorDialog(null);
 
-		IRunnableWithProgress rp = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor)
-					throws InvocationTargetException, InterruptedException {
-				try {
-					System.out.println("---------11111111");
-					fileHandle.creadFile(projectDir, cppName, monitor);
-					fileHandle.creadFile(projectDir, proNmae, monitor);
-					System.out.println("---------2222222222");
-				} finally {
-					monitor.done();
-				}
-			}
-		};
+		/* 刷新本地资源 */
 		try {
-			getContainer().run(true, false, rp);
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
+			project.refreshLocal(IResource.DEPTH_INFINITE, null);
+		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-		System.out.println("-------------66666666666666");
-		return true;
-	}
 
-	/**
-	 * The worker method. It will find the container, create the file if missing
-	 * or just replace its contents, and open the editor on the newly created
-	 * file.
-	 */
-	private void doFinish() {
+		/* 调用createFile方法创建文件 */
+		fileHandle.creadFile(projectDir, cppName, "cpp");
+		fileHandle.creadFile(projectDir, proNmae, "pro");
+
+		return true;
 	}
 
 	/** 向导页没有到最后也的时候是否能完成 */
@@ -136,5 +120,11 @@ public class QtProjectWizard extends Wizard implements INewWizard {
 	 */
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
+	}
+
+	/* 重载它来指定进度条部件是否可视，点击Finish调用doFinish方法，进度条就会出现.测试为显示 */
+	@Override
+	public boolean needsProgressMonitor() {
+		return true;
 	}
 }

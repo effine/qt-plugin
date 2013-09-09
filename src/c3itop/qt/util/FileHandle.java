@@ -18,23 +18,12 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.wizard.IWizardContainer;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
 
-/**
- * 针对本地文件的处理类
- */
+/*针对本地文件的处理类*/
 public class FileHandle {
-	private IWizardContainer container = null;
-
 	/**
-	 * 新建文件
+	 * Create a new file
 	 * 
 	 * @param pathNmae
 	 *            文件所在路径及文件名
@@ -54,7 +43,7 @@ public class FileHandle {
 	}
 
 	/**
-	 * 删除文件
+	 * Delete a file
 	 * 
 	 * @param pathName
 	 *            删除文件的完整文件名（包含路径）
@@ -69,7 +58,7 @@ public class FileHandle {
 	}
 
 	/**
-	 * 以行为单位读取文件，常用于读面向行的格式化文件
+	 * 以 "行" 为单位读取文件，常用于读面向行的格式化文件
 	 * 
 	 * @param file
 	 *            需要读取的文件名
@@ -99,24 +88,20 @@ public class FileHandle {
 		}
 	}
 
-	/** create file with not use Java package */
-	public void creadFile(String filePath, String fileName,
-			IProgressMonitor monitor) {
-		monitor.beginTask("Creating " + fileName, 2);
+	/* create file with not use Java package */
+	public void creadFile(String filePath, String fileName, String suffix) {
+
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IResource resource = root.findMember(new Path(filePath));
-		/*
-		 * if (!resource.exists() || !(resource instanceof IContainer)) { throw
-		 * CoreException(filePath + "\\" + fileName + "  does not exist."); }
-		 */
+
 		IContainer container = (IContainer) resource;
 		final IFile file = container.getFile(new Path(fileName));
 		try {
-			InputStream stream = openContentStream();
+			InputStream stream = openContentStream(suffix);
 			if (file.exists()) {
-				file.setContents(stream, true, true, monitor);
+				file.setContents(stream, true, true, null);
 			} else {
-				file.create(stream, true, monitor);
+				file.create(stream, true, null);
 			}
 			stream.close();
 		} catch (IOException e) {
@@ -124,30 +109,23 @@ public class FileHandle {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-		monitor.worked(1);
-		monitor.setTaskName("Opening file for editing...");
-		getShell().getDisplay().asyncExec(new Runnable() {
-			public void run() {
-				IWorkbenchPage page = PlatformUI.getWorkbench()
-						.getActiveWorkbenchWindow().getActivePage();
-				try {
-					IDE.openEditor(page, file, true);
-				} catch (PartInitException e) {
-				}
-			}
-		});
-		monitor.worked(1);
 	}
 
-	public Shell getShell() {
-		if (container == null)
-			return null;
-		return container.getShell();
-	}
-
-	/** initialize file contents with template file */
-	public InputStream openContentStream() {
-		return this.getClass().getResourceAsStream(
-				"/c3itop/qt/template/CppTemplate.cpp");
+	/**
+	 * initialize file contents with template file
+	 * 
+	 * @param suffix
+	 *            后缀名
+	 */
+	public InputStream openContentStream(String suffix) {
+		if ("cpp".equals(suffix)) {
+			return this.getClass().getResourceAsStream(
+					"/c3itop/qt/template/CppTemplate.cpp");
+		}
+		if ("pro".equals(suffix)) {
+			return this.getClass().getResourceAsStream(
+					"/c3itop/qt/template/ProTemplate.pro");
+		}
+		return null;
 	}
 }

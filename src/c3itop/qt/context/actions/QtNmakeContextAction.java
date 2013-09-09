@@ -53,12 +53,6 @@ public class QtNmakeContextAction implements IObjectActionDelegate,
 
 		Runtime runtime = Runtime.getRuntime(); // 获得JVM的运行环境
 
-		MessageConsole mc = new MessageConsole("c3itop console", null);
-		ConsolePlugin.getDefault().getConsoleManager()
-				.addConsoles(new IConsole[] { mc });
-		MessageConsoleStream consoleStream = mc.newMessageStream();
-		ConsolePlugin.getDefault().getConsoleManager().showConsoleView(mc);
-
 		/* 使用dos命令echo创建临时bat文件 */
 		/*
 		 * try { runtime.exec("cmd /c  echo  " + qtBatContext + "> temp.bat"); }
@@ -80,15 +74,14 @@ public class QtNmakeContextAction implements IObjectActionDelegate,
 
 			String line = null;
 			while ((line = br.readLine()) != null) {
-				CustomConsole.consoleInfo += "\n" + br.readLine();
+				CustomConsole.printConsole(br.readLine());
 			}
 
 			if (proc.waitFor() != 0) {
 				if (proc.exitValue() == 1)
 					// prop.exitValue()表示退出返回值;(0:表示正常结束，1：非正常结束)
-					CustomConsole.consoleInfo += "\n" + "命令执行失败!";
+					CustomConsole.printConsole("命令执行失败!");
 			}
-			consoleStream.println(CustomConsole.consoleInfo); // 将得到的信息输出到Console
 			br.close();
 			ips.close();
 

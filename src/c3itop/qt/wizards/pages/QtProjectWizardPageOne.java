@@ -221,9 +221,4 @@ public class QtProjectWizardPageOne extends WizardPage {
 		}
 		return projectNameField.getText().trim();
 	}
-
-	public void setVisible(boolean visible) {
-		super.setVisible(visible);
-	}
-
 }

@@ -5,8 +5,10 @@
 
 package c3itop.qt.context.actions;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IObjectActionDelegate;
@@ -21,8 +23,9 @@ public class TestContextAction implements IObjectActionDelegate,
 	private IWorkbenchWindow window;
 
 	public void run(IAction action) {
-		CustomConsole.printConsole("工作空间1 :" + Platform.getLocation());
-		CustomConsole.printConsole("工作空间3 :" + Platform.getInstanceLocation());
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+
+		CustomConsole.printConsole("工作空间  :" + root);
 
 	}
 

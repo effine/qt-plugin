@@ -12,6 +12,8 @@ public class Demo extends Wizard {
 	@Override
 	public boolean performFinish() {
 
+		System.out.println("---------------------------");
+
 		return false;
 	}
 

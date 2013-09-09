@@ -12,11 +12,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
+import org.eclipse.ui.console.IOConsoleOutputStream;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 
 public class CustomConsole {
-	public static String consoleInfo = ""; // 存储出现在console面板的信息
 	private static MessageConsole mc = null;
 	private static IConsoleManager cmanager = null;
 	private static MessageConsoleStream consoleStream = null;
@@ -29,10 +29,6 @@ public class CustomConsole {
 		/* 创建一个MessageConsole */
 		if (mc == null) {
 			mc = new MessageConsole("c3itop console", null);
-			FontData fontData = new FontData();
-			fontData.setStyle(SWT.NULL);
-			Font font = new Font(Display.getDefault(), fontData);
-			mc.setFont(font);
 		}
 
 		/* 通过ConsolePlugin获得Console的管理器 */
@@ -48,8 +44,12 @@ public class CustomConsole {
 			consoleStream = mc.newMessageStream();
 		}
 		/* 设置输出的字符编码 */
-		consoleStream.setEncoding("utf-8");
-		consoleStream.setFontStyle(11);
+		consoleStream.setEncoding("GBK");
+
+		/* 设置console的字体\大小 */
+		FontData fontData = new FontData("Consolas", 11, SWT.NORMAL);
+		Font font = new Font(Display.getDefault(), fontData);
+		mc.setFont(font);
 
 		/* 运行的时候，如console视图没有打开则打开Console视图 */
 		cmanager.showConsoleView(mc);

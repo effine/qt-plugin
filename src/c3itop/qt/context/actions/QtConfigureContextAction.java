@@ -49,17 +49,18 @@ public class QtConfigureContextAction implements IObjectActionDelegate,
 			BufferedReader br = new BufferedReader(ipsr);
 			String line = null;
 			while ((line = br.readLine()) != null) {
-				CustomConsole.consoleInfo += "\n" + br.readLine();
+				CustomConsole.printConsole(br.readLine());
 			}
 
 			if (proc.waitFor() != 0) {
 				if (proc.exitValue() == 1) // prop.exitValue()表示退出返回值;(0:表示正常结束，1：非正常结束)
-					CustomConsole.consoleInfo += "命令执行失败!";
+					CustomConsole.printConsole("命令执行失败!");
 			}
-			CustomConsole.printConsole(null);
-			/*
-			 * br.close(); ips.close();
-			 */
+
+			ips.close();
+			ipsr.close();
+			br.close();
+
 			project.refreshLocal(IResource.DEPTH_INFINITE, null);
 
 		} catch (InterruptedException e) {

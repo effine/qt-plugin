@@ -54,18 +54,29 @@ public class QtProjectWizardPageTwo extends WizardPage {
 		cppName.setText(onePage.getProjectName() + ".cpp");
 	}
 
-	public String getCppName() {
+	/**
+	 * 获得本向导也属性框值
+	 * 
+	 * @param suffix
+	 *            具体的哪一属性框值，如cpp、pro
+	 * @return
+	 */
+	public String getCppName(String suffix) {
 
 		String cname = cppName.getText().trim();
-		if (null == cname || "".equals(cname))
-			return null;
-		return cname;
-	}
-
-	public String getProName() {
 		String pname = proName.getText().trim();
-		if (null == pname || "".equals(pname))
-			return null;
-		return pname;
+
+		if ("cpp".equals(suffix)) {
+			if (null == cname || "".equals(cname))
+				return null;
+			return cname;
+		}
+		if ("pro".equals(suffix)) {
+
+			if (null == pname || "".equals(pname))
+				return null;
+			return pname;
+		}
+		return null;
 	}
 }
