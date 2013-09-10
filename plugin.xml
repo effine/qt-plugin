@@ -20,7 +20,6 @@
                id="c3itop.qt.nmake_action"
                label="%nmakeAction"
                menubarPath="c3itop.qt.conf_menu/gmk2"
-               style="push"
                toolbarPath="conf_separator"
                tooltip="Nmake">
          </action>
