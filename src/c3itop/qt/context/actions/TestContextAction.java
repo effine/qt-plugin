@@ -5,10 +5,8 @@
 
 package c3itop.qt.context.actions;
 
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IObjectActionDelegate;
@@ -24,9 +22,7 @@ public class TestContextAction implements IObjectActionDelegate,
 
 	public void run(IAction action) {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-
-		CustomConsole.printConsole("工作空间  :" + root);
-
+		CustomConsole.printConsole("------------------  :" + root);
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
