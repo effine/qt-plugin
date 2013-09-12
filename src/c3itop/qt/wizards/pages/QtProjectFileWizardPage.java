@@ -16,17 +16,17 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
-public class QtProjectWizardPageTwo extends WizardPage {
+public class QtProjectFileWizardPage extends WizardPage {
 
 	private Text proName;
 	private Text cppName;
-	private QtProjectWizardPageOne onePage;
+	private QtProjectNameWizardPage onePage;
 
-	public QtProjectWizardPageTwo(ISelection selection) {
+	public QtProjectFileWizardPage(ISelection selection) {
 		super("Wizardpage");
 		setTitle("Qt Code Project");
 		setDescription("show project default file names .");
-		onePage = new QtProjectWizardPageOne(selection);
+		onePage = new QtProjectNameWizardPage(selection);
 	}
 
 	public void createControl(Composite parent) {
@@ -79,4 +79,11 @@ public class QtProjectWizardPageTwo extends WizardPage {
 		}
 		return null;
 	}
+
+	/* 设置cppName的值 */
+	public void setFileName(String name) {
+		cppName.setText(name + ".cpp");
+		proName.setText(name + ".pro");
+	}
+
 }

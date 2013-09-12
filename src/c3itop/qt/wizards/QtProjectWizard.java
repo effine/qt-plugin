@@ -16,19 +16,22 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 import c3itop.qt.util.FileHandle;
-import c3itop.qt.wizards.pages.QtProjectWizardPageOne;
-import c3itop.qt.wizards.pages.QtProjectWizardPageTwo;
+import c3itop.qt.wizards.pages.QtProjectFileWizardPage;
+import c3itop.qt.wizards.pages.QtProjectNameWizardPage;
+import c3itop.qt.wizards.pages.QtTargetWizardPage;
 
 public class QtProjectWizard extends Wizard implements INewWizard {
 
 	private ISelection selection;
-	private QtProjectWizardPageOne pageOne;
-	private QtProjectWizardPageTwo pageTwo;
+	private QtProjectNameWizardPage pageName;
+	private QtProjectFileWizardPage pageFile;
+	private QtTargetWizardPage pageTarget;
 	private FileHandle fileHandle;
 
 	public QtProjectWizard() {
@@ -38,27 +41,31 @@ public class QtProjectWizard extends Wizard implements INewWizard {
 
 	@Override
 	public void addPages() {
-		if (pageOne == null)
-			pageOne = new QtProjectWizardPageOne(selection);
-		addPage(pageOne);
+		if (pageName == null)
+			pageName = new QtProjectNameWizardPage(selection);
+		addPage(pageName);
 
-		if (pageTwo == null)
-			pageTwo = new QtProjectWizardPageTwo(selection);
-		addPage(pageTwo);
+		if (pageFile == null)
+			pageFile = new QtProjectFileWizardPage(selection);
+		addPage(pageFile);
 
+		if (pageTarget == null) {
+			pageTarget = new QtTargetWizardPage(selection);
+			addPage(pageTarget);
+		}
 	}
 
 	@Override
 	public boolean performFinish() {
 		/* 获得向导One输入的工程名 */
-		final String projectName = pageOne.getProjectName();
+		final String projectName = pageName.getProjectName();
 
 		/* 获得向导Two输入的cpp、pro文件名 */
-		final String cppName = pageTwo.getCppName("cpp");
-		final String proNmae = pageTwo.getCppName("pro");
+		final String cppName = pageFile.getCppName("cpp");
+		final String proNmae = pageFile.getCppName("pro");
 
 		/* 获得向导选择的工程位置 */
-		final String projectDir = pageOne.getProjectHandle().getName();
+		final String projectDir = pageName.getProjectHandle().getName();
 		fileHandle = new FileHandle();
 
 		/* 获取工作区 */
@@ -119,4 +126,15 @@ public class QtProjectWizard extends Wizard implements INewWizard {
 	public boolean needsProgressMonitor() {
 		return true;
 	}
+
+	@Override
+	public IWizardPage getNextPage(IWizardPage page) {
+
+		if (pageName.isPageComplete()
+				&& (getContainer().getCurrentPage() == pageName)) {
+			pageFile.setFileName(pageName.getProjectHandle().getName());
+		}
+		return super.getNextPage(page);
+	}
+
 }

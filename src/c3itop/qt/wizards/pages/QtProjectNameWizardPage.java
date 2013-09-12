@@ -29,14 +29,14 @@ import org.eclipse.ui.internal.ide.IIDEHelpContextIds;
 import org.eclipse.ui.internal.ide.dialogs.ProjectContentsLocationArea;
 import org.eclipse.ui.internal.ide.dialogs.ProjectContentsLocationArea.IErrorMessageReporter;
 
-public class QtProjectWizardPageOne extends WizardPage {
+public class QtProjectNameWizardPage extends WizardPage {
 
 	Text projectNameField;
 	private String initialProjectFieldValue; // initial value stores
 	private ProjectContentsLocationArea locationArea;
 	private static final int SIZING_TEXT_FIELD_WIDTH = 250;
 
-	public QtProjectWizardPageOne(ISelection selection) {
+	public QtProjectNameWizardPage(ISelection selection) {
 		super("Wizardpage");
 		setTitle("Qt Code Project");
 		setDescription("Create a new Qt Code Application Project .");
@@ -111,7 +111,7 @@ public class QtProjectWizardPageOne extends WizardPage {
 	/** Set the location to the default location if we are set to useDefaults. */
 	void setLocationForSelection() {
 		locationArea.updateProjectName(getProjectNameFieldValue());
-		QtProjectWizardPageTwo twoPage = new QtProjectWizardPageTwo(null);
+		QtProjectFileWizardPage twoPage = new QtProjectFileWizardPage(null);
 	}
 
 	private IErrorMessageReporter getErrorReporter() {
