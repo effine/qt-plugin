@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import c3itop.qt.util.TargetPlatform;
+import c3itop.qt.util.TargetPlatformMemory;
 
 public class QtTargetWizardPage extends WizardPage {
 
@@ -39,13 +40,16 @@ public class QtTargetWizardPage extends WizardPage {
 		lblTargetsPlatform.setText("Targets Platform :");
 
 		fatherCmb = new Combo(container, SWT.READ_ONLY);
-		String[] item = platform.fatherPlatform;
 		fatherCmb.setBounds(157, 33, 278, 25);
-		fatherCmb.setItems(item);
 
 		childCmb = new Combo(container, SWT.READ_ONLY);
 		childCmb.setBounds(157, 85, 278, 25);
 
+		/* 填充目标编译向导页操作系统栏 */
+		String[] item = platform.fatherPlatform;
+		fatherCmb.setItems(item);
+
+		/* 设置目标编译向导页 根据操作系统进行默认显示 */
 		String currentOS = platform.getCurrentOS();
 		for (int i = 0; i < item.length; i++) {
 			if (currentOS.equals(item[i])) {
@@ -69,9 +73,11 @@ public class QtTargetWizardPage extends WizardPage {
 				}
 			}
 		});
+
 	}
 
-	public String getTargetPlatform() {
+	/* Select current target compile platform */
+	public String getCurTargetPlatform() {
 		return childCmb.getText();
 	}
 }

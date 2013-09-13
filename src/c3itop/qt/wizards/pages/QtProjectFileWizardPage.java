@@ -40,7 +40,7 @@ public class QtProjectFileWizardPage extends WizardPage {
 
 		// cpp file name
 		cppName = new Text(container, SWT.BORDER);
-		cppName.setBounds(121, 23, 376, 27);
+		cppName.setBounds(121, 23, 358, 27);
 
 		// pro file name
 		Label lblPro = new Label(container, SWT.NONE);
@@ -48,10 +48,7 @@ public class QtProjectFileWizardPage extends WizardPage {
 		lblPro.setText("Pro Filename：");
 
 		proName = new Text(container, SWT.BORDER);
-		proName.setBounds(121, 62, 376, 23);
-
-		proName.setText(onePage.getProjectName() + ".pro");
-		cppName.setText(onePage.getProjectName() + ".cpp");
+		proName.setBounds(121, 62, 358, 23);
 	}
 
 	/**

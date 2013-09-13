@@ -48,8 +48,43 @@
          point="org.eclipse.ui.popupMenus">
       <objectContribution
             adaptable="true"
-            id="c3itop.qt.conf_objectContribution"
+            id="c3itop.qt.objectContribution.configure"
             objectClass="org.eclipse.core.runtime.IAdaptable">
+             <separator
+                  name="c3itop">
+            </separator>
+         <action
+               class="c3itop.qt.context.actions.TestContextAction"
+               icon="icons/sample.gif"
+               id="c3itop.qt.testAction"
+               label="Test">
+         </action>
+         <action
+               class="action.Action1"
+               id="c3itop.qt.selectPlatform"
+               label="%platform"
+               menubarPath="c3itop.qt.menu.options/group1">
+         </action>
+         <action
+               class="c3itop.qt.context.actions.CleanAllAction"
+               id="c3itop.qt.cleanAllProject"
+               label="%cleanAllAction"
+               menubarPath="c3itop.qt.menu.options/group1">
+         </action>
+         <action
+               class="c3itop.qt.context.actions.CleanOneAtion"
+               id="c3itop.qt.cleanOneProject"
+               label="%cleanOneAction"
+               menubarPath="c3itop.qt.menu.options/group1">
+         </action>
+         <menu
+               id="c3itop.qt.menu.options"
+               label="%options"
+               path="additions">
+            <groupMarker
+                  name="group1">
+            </groupMarker>
+         </menu>
          <action
                class="c3itop.qt.context.actions.QtNmakeContextAction"
                definitionId="c3itop.qt.definitionId.nmake"
@@ -63,22 +98,6 @@
                icon="icons/conf.gif"
                id="c3itop.qt.configureContextAction"
                label="%configureContextAction">
-         </action>
-         <action
-               class="c3itop.qt.context.actions.CleanOneAtion"
-               id="c3itop.qt.cleanOneProject"
-               label="%cleanOneAction">
-         </action>
-         <action
-               class="c3itop.qt.context.actions.CleanAllAction"
-               id="c3itop.qt.cleanAllProject"
-               label="%cleanAllAction">
-         </action>
-         <action
-               class="c3itop.qt.context.actions.TestContextAction"
-               icon="icons/sample.gif"
-               id="c3itop.qt.testAction"
-               label="Test">
          </action>
       </objectContribution>
    </extension>

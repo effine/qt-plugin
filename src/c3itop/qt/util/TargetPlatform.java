@@ -32,14 +32,15 @@ public class TargetPlatform {
 		map = new HashMap<String, String[]>();
 
 		for (String str : fatherPlatform) {
-			String chidPath = sdkPath + "\\qmake\\" + str + "\\mkspecs";
+			// TargetPlatformMemory.path = "qmake\\" + str + "\\mkspecs";
+			String childPath = sdkPath + "\\qmake\\" + str + "\\mkspecs";
 
 			if ("win32".equals(str)) {
-				childPlatform = arrContrast(getDirList(chidPath), delArray);
+				childPlatform = arrContrast(getDirList(childPath), delArray);
 			} else if ("linux".equals(str)) {
-				childPlatform = arrContrast(getDirList(chidPath), delArray);
+				childPlatform = arrContrast(getDirList(childPath), delArray);
 			} else if ("vxworks".equals(str)) {
-				childPlatform = arrContrast(getDirList(chidPath), delArray);
+				childPlatform = arrContrast(getDirList(childPath), delArray);
 			}
 			map.put(str, childPlatform);
 		}

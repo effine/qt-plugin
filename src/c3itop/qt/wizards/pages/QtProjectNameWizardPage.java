@@ -96,6 +96,8 @@ public class QtProjectNameWizardPage extends WizardPage {
 			projectNameField.setText(initialProjectFieldValue);
 		}
 		projectNameField.addListener(SWT.Modify, nameModifyListener);
+
+		// -------------------------------------------------------------------------------------------------------------------------------------------
 		BidiUtils.applyBidiProcessing(projectNameField, BidiUtils.BTD_DEFAULT);
 	}
 

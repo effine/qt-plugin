@@ -22,6 +22,7 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 import c3itop.qt.util.FileHandle;
+import c3itop.qt.util.TargetPlatformMemory;
 import c3itop.qt.wizards.pages.QtProjectFileWizardPage;
 import c3itop.qt.wizards.pages.QtProjectNameWizardPage;
 import c3itop.qt.wizards.pages.QtTargetWizardPage;
@@ -99,6 +100,10 @@ public class QtProjectWizard extends Wizard implements INewWizard {
 		fileHandle.creadFile(projectDir, cppName, "cpp");
 		fileHandle.creadFile(projectDir, proNmae, "pro");
 
+		TargetPlatformMemory.currentSelectedPlatform = pageTarget
+				.getCurTargetPlatform();
+		System.out.println("---------------QtProjectWizard :"
+				+ pageTarget.getCurTargetPlatform());
 		return true;
 	}
 

@@ -22,26 +22,29 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
 import c3itop.qt.console.CustomConsole;
 import c3itop.qt.util.ProjectHandle;
+import c3itop.qt.util.TargetPlatformMemory;
 
 public class QtConfigureContextAction implements IObjectActionDelegate,
 		IWorkbenchWindowActionDelegate {
 
 	private IProject project;
+	private String platform = TargetPlatformMemory.compilePath;
 
 	public void run(IAction action) {
+
+		System.out.println(" --------------configure ：" + platform);
 
 		ProjectHandle projectHandle = new ProjectHandle();
 		project = projectHandle.getCurrentProject();
 
-		String qtBatPath = projectHandle.getProjectPath() + "/"
+		String qtBatPath = projectHandle.getProjectPath() + "\\"
 				+ project.getName();
 
-		String[] conf = { "configure", "-p", "-spec",
-				"qmake\\win32\\mkspecs\\win32-qt483-msvc2010", "-d", qtBatPath };
+		String[] conf = { "configure", "-p", "-spec", platform, "-d", qtBatPath };
 
 		Runtime runtime = Runtime.getRuntime(); // 获得JVM的运行环境
-
 		try {
+
 			Process proc = runtime.exec(conf);// 另起一个进程,执行命令
 			InputStream ips = proc.getInputStream(); // 获得一个输入流InputStream
 			// 获得一个输入流InputSteamReader
