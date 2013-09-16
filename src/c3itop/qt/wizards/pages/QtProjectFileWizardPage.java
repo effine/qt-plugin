@@ -21,6 +21,7 @@ public class QtProjectFileWizardPage extends WizardPage {
 	private Text proName;
 	private Text cppName;
 	private QtProjectNameWizardPage onePage;
+	private Text uiName;
 
 	public QtProjectFileWizardPage(ISelection selection) {
 		super("Wizardpage");
@@ -49,19 +50,26 @@ public class QtProjectFileWizardPage extends WizardPage {
 
 		proName = new Text(container, SWT.BORDER);
 		proName.setBounds(121, 62, 358, 23);
+
+		Label lblUiFilename = new Label(container, SWT.NONE);
+		lblUiFilename.setBounds(10, 101, 105, 17);
+		lblUiFilename.setText("UI Filename：");
+		uiName = new Text(container, SWT.BORDER);
+		uiName.setBounds(121, 95, 358, 23);
 	}
 
 	/**
-	 * 获得本向导也属性框值
+	 * 获得本向导页属性框值
 	 * 
 	 * @param suffix
 	 *            具体的哪一属性框值，如cpp、pro
 	 * @return
 	 */
-	public String getCppName(String suffix) {
+	public String getWizardFieldName(String suffix) {
 
 		String cname = cppName.getText().trim();
 		String pname = proName.getText().trim();
+		String uname = uiName.getText().trim();
 
 		if ("cpp".equals(suffix)) {
 			if (null == cname || "".equals(cname))
@@ -74,6 +82,14 @@ public class QtProjectFileWizardPage extends WizardPage {
 				return null;
 			return pname;
 		}
+
+		if ("ui".equals(suffix)) {
+
+			if (null == pname || "".equals(uname))
+				return null;
+			return uname;
+		}
+
 		return null;
 	}
 
@@ -81,6 +97,6 @@ public class QtProjectFileWizardPage extends WizardPage {
 	public void setFileName(String name) {
 		cppName.setText(name + ".cpp");
 		proName.setText(name + ".pro");
+		uiName.setText(name + ".ui");
 	}
-
 }

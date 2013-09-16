@@ -28,19 +28,26 @@ public class QtConfigureContextAction implements IObjectActionDelegate,
 		IWorkbenchWindowActionDelegate {
 
 	private IProject project;
-	private String platform = TargetPlatformMemory.compilePath;
+
+	/* configure编译使用的完整路径 */
+	private String platform = TargetPlatformMemory.compilePlatform;
+
+	/*
+	 * private String platform =
+	 * "qmake\\win32\\mkspecs\\vx660-qt483-pentium4-rtp-g++";
+	 */
 
 	public void run(IAction action) {
 
-		System.out.println(" --------------configure ：" + platform);
-
+		System.out.println("-------------configure使用的目标平台：" + platform);
 		ProjectHandle projectHandle = new ProjectHandle();
 		project = projectHandle.getCurrentProject();
 
 		String qtBatPath = projectHandle.getProjectPath() + "\\"
 				+ project.getName();
 
-		String[] conf = { "configure", "-p", "-spec", platform, "-d", qtBatPath };
+		String[] conf = { "configure", "-p", "-spec", platform, "-d",
+				qtBatPath, "-mode", "debug", "-platform", "unix" };
 
 		Runtime runtime = Runtime.getRuntime(); // 获得JVM的运行环境
 		try {

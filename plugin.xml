@@ -14,16 +14,6 @@
                path="additions">
          </menu>
          <action
-               class="c3itop.qt.context.actions.QtNmakeContextAction"
-               definitionId="c3itop.qt.definitionId.nmake"
-               icon="icons/make.gif"
-               id="c3itop.qt.nmake_action"
-               label="%nmakeAction"
-               menubarPath="c3itop.qt.conf_menu/gmk2"
-               toolbarPath="conf_separator"
-               tooltip="Nmake">
-         </action>
-         <action
                class="c3itop.qt.context.actions.QtConfigureContextAction"
                definitionId="c3itop.qt.definitionId.configure"
                icon="icons/conf.gif"
@@ -34,13 +24,14 @@
                tooltip="Configure">
          </action>
          <action
-               class="c3itop.qt.actions.TestAction"
-               icon="icons/recycle.jpg"
-               id="qt-plugin.action1"
-               label="Test"
+               class="c3itop.qt.context.actions.QtNmakeContextAction"
+               definitionId="c3itop.qt.definitionId.nmake"
+               icon="icons/make.gif"
+               id="c3itop.qt.nmake_action"
+               label="%buildAction"
                menubarPath="c3itop.qt.conf_menu/gmk2"
                toolbarPath="conf_separator"
-               tooltip="Test">
+               tooltip="Build">
          </action>
       </actionSet>
    </extension>
@@ -54,13 +45,7 @@
                   name="c3itop">
             </separator>
          <action
-               class="c3itop.qt.context.actions.TestContextAction"
-               icon="icons/sample.gif"
-               id="c3itop.qt.testAction"
-               label="Test">
-         </action>
-         <action
-               class="action.Action1"
+               class="c3itop.qt.context.actions.QtTargetPlatformContextAction"
                id="c3itop.qt.selectPlatform"
                label="%platform"
                menubarPath="c3itop.qt.menu.options/group1">
@@ -90,7 +75,7 @@
                definitionId="c3itop.qt.definitionId.nmake"
                icon="icons/make.gif"
                id="c3itop.qt.nmakeContextAction"
-               label="%nmakeContextAction">
+               label="%buildContextAction">
          </action>
          <action
                class="c3itop.qt.context.actions.QtConfigureContextAction"

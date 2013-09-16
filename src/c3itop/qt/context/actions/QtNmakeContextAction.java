@@ -46,14 +46,23 @@ public class QtNmakeContextAction implements IObjectActionDelegate,
 
 		String qtBatName = qtBatPath + "/temp.bat"; // 临时的Bat文件
 
-		/* 临时Bat文件中的内容 */
-		String qtBatContext = "f: \n cd "
-				+ qtBatPath
-				+ "\n  call \"C:\\Program Files\\Microsoft Visual Studio 10.0\\VC\\vcvarsall.bat\"  \n  nmake \n  goto :eof";
+		/* 临时Bat文件中的内容：使用VS */
+		// String qtBatContext = qtBatPath + "/make";
 
+		/*
+		 * String qtBatContext = "cd qtBatPath +
+		 * "\n  call \"C:\\Program Files\\Microsoft Visual Studio 10.0\\VC\\vcvarsall.bat\"  \n  nmake \n  goto :eof"
+		 * ;
+		 */
+
+		/* 临时Bat文件中的内容 */
+		String qtBatContext = "cd  F: \n "
+				+ "cd "
+				+ qtBatPath
+				+ "\n    C:/WindRiver-GPPVE-3.6-IA-Eval/wrenv.exe -p vxworks-6.6  \n  make \n  goto :eof";
 		Runtime runtime = Runtime.getRuntime(); // 获得JVM的运行环境
 
-		/* 使用dos命令echo创建临时bat文件 */
+		/* 使用dos命令echo创建临时bat文件，并写入bat内容 */
 		/*
 		 * try { runtime.exec("cmd /c  echo  " + qtBatContext + "> temp.bat"); }
 		 * catch (IOException e1) { e1.printStackTrace(); }
@@ -62,6 +71,8 @@ public class QtNmakeContextAction implements IObjectActionDelegate,
 		/* Java新建一个bat文件，写入需要执行的命令 */
 		File file = new FileHandle().createBatFile(qtBatName, qtBatContext);
 		try {
+			// String s[] = { "make", "-C", qtBatPath };
+
 			Process proc = runtime.exec(qtBatName);
 
 			/* 使用exec（）方法的参数设置在指定目录下运行 */
@@ -86,7 +97,7 @@ public class QtNmakeContextAction implements IObjectActionDelegate,
 			ips.close();
 
 			/* Java删除暂存temp.bat文件 */
-			fileHandle.delBatFile(file);
+			// fileHandle.delBatFile(file);
 
 			// fileHandle.delBatFile(new File(qtBatName)); //dos测试删除temp.bat文件
 			project.refreshLocal(IResource.DEPTH_INFINITE, null);

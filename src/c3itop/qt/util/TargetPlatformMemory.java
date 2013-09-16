@@ -6,8 +6,16 @@
 package c3itop.qt.util;
 
 public class TargetPlatformMemory {
+
 	public static String path = "";
-	public static String currentSelectedPlatform = "";
+
+	/* 向导页显示的目标平台 */
+	public static String SelectedPlatform = "";
+
 	// public static String compilePath = path + "\\" + currentSelectedPlatform;
-	public static String compilePath = "qmake\\win32\\mkspecs\\win32-qt483-msvc2008";
+
+	/* Configure时使用的目标平台完整路径 */
+	public static String compilePlatform = "qmake\\win32\\mkspecs\\"
+			+ SelectedPlatform;
+
 }

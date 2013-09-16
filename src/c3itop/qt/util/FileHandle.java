@@ -120,11 +120,13 @@ public class FileHandle {
 	public InputStream openContentStream(String suffix) {
 		if ("cpp".equals(suffix)) {
 			return this.getClass().getResourceAsStream(
-					"/c3itop/qt/template/CppTemplate.cpp");
-		}
-		if ("pro".equals(suffix)) {
+					"/c3itop/qt/template/Cpp.template");
+		} else if ("pro".equals(suffix)) {
 			return this.getClass().getResourceAsStream(
-					"/c3itop/qt/template/ProTemplate.pro");
+					"/c3itop/qt/template/Pro.template");
+		} else if ("ui".equals(suffix)) {
+			return this.getClass().getResourceAsStream(
+					"/c3itop/qt/template/UI.template");
 		}
 		return null;
 	}

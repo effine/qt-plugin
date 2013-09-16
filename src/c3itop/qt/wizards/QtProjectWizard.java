@@ -62,8 +62,9 @@ public class QtProjectWizard extends Wizard implements INewWizard {
 		final String projectName = pageName.getProjectName();
 
 		/* 获得向导Two输入的cpp、pro文件名 */
-		final String cppName = pageFile.getCppName("cpp");
-		final String proNmae = pageFile.getCppName("pro");
+		final String cppName = pageFile.getWizardFieldName("cpp");
+		final String proName = pageFile.getWizardFieldName("pro");
+		final String uiName = pageFile.getWizardFieldName("ui");
 
 		/* 获得向导选择的工程位置 */
 		final String projectDir = pageName.getProjectHandle().getName();
@@ -89,21 +90,27 @@ public class QtProjectWizard extends Wizard implements INewWizard {
 			e.printStackTrace();
 		}
 
-		/* 刷新本地资源 */
+		/* 调用createFile方法创建文件 */
+		fileHandle.creadFile(projectDir, cppName, "cpp");
+		fileHandle.creadFile(projectDir, proName, "pro");
+		fileHandle.creadFile(projectDir, uiName, "ui");
+
+		/* 创建一个文件保存向导页选择的目标平台 */
+		fileHandle.creadFile(projectDir, "target", null);
+
+		TargetPlatformMemory.SelectedPlatform = pageTarget
+				.getCurTargetPlatform();
+
+		System.out.println("----------向导页选择的的目标平台 :"
+				+ TargetPlatformMemory.SelectedPlatform);
+
 		try {
+			/* 刷新本地资源 */
 			project.refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
 
-		/* 调用createFile方法创建文件 */
-		fileHandle.creadFile(projectDir, cppName, "cpp");
-		fileHandle.creadFile(projectDir, proNmae, "pro");
-
-		TargetPlatformMemory.currentSelectedPlatform = pageTarget
-				.getCurTargetPlatform();
-		System.out.println("---------------QtProjectWizard :"
-				+ pageTarget.getCurTargetPlatform());
 		return true;
 	}
 
