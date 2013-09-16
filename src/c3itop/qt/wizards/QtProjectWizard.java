@@ -95,14 +95,15 @@ public class QtProjectWizard extends Wizard implements INewWizard {
 		fileHandle.creadFile(projectDir, proName, "pro");
 		fileHandle.creadFile(projectDir, uiName, "ui");
 
-		/* 创建一个文件保存向导页选择的目标平台 */
-		fileHandle.creadFile(projectDir, "target", null);
+		/* 收集得到向导页所选择的的目标平台 */
+		/*
+		 * TargetPlatformMemory.SelectedPlatform = pageTarget
+		 * .getCurTargetPlatform();
+		 */
 
-		TargetPlatformMemory.SelectedPlatform = pageTarget
-				.getCurTargetPlatform();
-
-		System.out.println("----------向导页选择的的目标平台 :"
-				+ TargetPlatformMemory.SelectedPlatform);
+		/* 创建一个保存向导页选择的目标平台的文件 */
+		fileHandle.createFileForJava(projectDir,
+				pageTarget.getCurTargetPlatform()); // 使用Java包的方式创建的文件
 
 		try {
 			/* 刷新本地资源 */

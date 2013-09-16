@@ -69,7 +69,7 @@ public class QtNmakeContextAction implements IObjectActionDelegate,
 		 */
 
 		/* Java新建一个bat文件，写入需要执行的命令 */
-		File file = new FileHandle().createBatFile(qtBatName, qtBatContext);
+		File file = new FileHandle().createFileForJava(qtBatName, qtBatContext);
 		try {
 			// String s[] = { "make", "-C", qtBatPath };
 

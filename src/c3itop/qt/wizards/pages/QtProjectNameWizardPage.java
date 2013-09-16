@@ -11,7 +11,6 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.util.BidiUtils;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -98,7 +97,11 @@ public class QtProjectNameWizardPage extends WizardPage {
 		projectNameField.addListener(SWT.Modify, nameModifyListener);
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------
-		BidiUtils.applyBidiProcessing(projectNameField, BidiUtils.BTD_DEFAULT);
+		/* 缺少org.eclipse.jface.util.BidiUtils包的错误，测试注释之后是否影响代码正常执行 */
+		/*
+		 * BidiUtils.applyBidiProcessing(projectNameField,
+		 * BidiUtils.BTD_DEFAULT);
+		 */
 	}
 
 	/** Listener to projectNameField */
