@@ -6,11 +6,13 @@
 package c3itop.qt.util;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -23,19 +25,6 @@ import org.eclipse.core.runtime.Path;
 /*针对本地文件的处理类*/
 public class FileHandle {
 
-	/* 使用java包创建文件，传入参数：完整文件名、文件内容 */
-	public File createFileForJava(String pathNmae, String context) {
-		File file = new File(pathNmae);
-		try {
-			FileWriter fw = new FileWriter(file, true);
-			fw.write(context);
-			fw.close();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		return file;
-	}
-
 	/* create file with not use Java package */
 	public void creadFile(String filePath, String fileName, String suffix) {
 
@@ -44,8 +33,12 @@ public class FileHandle {
 
 		IContainer container = (IContainer) resource;
 		final IFile file = container.getFile(new Path(fileName));
+
+		/* 截取字符串：".".equals(suffix.substring(0, 1)) */
 		try {
 			InputStream stream = openContentStream(suffix);
+
+			/* 如果文件存在，则往文件中写入内容；如不存在则创建文件，并写入内容 */
 			if (file.exists()) {
 				file.setContents(stream, true, true, null);
 			} else {
@@ -59,6 +52,38 @@ public class FileHandle {
 		}
 	}
 
+	/* 不使用Java包读取文件 */
+	public String readFile(String filePath) {
+		try {
+			InputStream is = this.getClass().getResourceAsStream(filePath);
+			StringBuffer sb = new StringBuffer();
+			byte[] b = new byte[4096];
+
+			for (int n; (n = is.read(b)) != -1;) {
+				sb.append(new String(b, 0, n));
+			}
+			return sb.toString();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+
+		/*
+		 * 方法一：但是在InputStreamReader时有错
+		 * 
+		 * InputStream is = this.getClass().getResourceAsStream(filePath);
+		 * InputStreamReader isr = new InputStreamReader(is); BufferedReader br
+		 * = new BufferedReader(isr); StringBuffer buffer = new StringBuffer();
+		 * 
+		 * String line = ""; try { while ((line = br.readLine()) != null) {
+		 * buffer.append(line); }
+		 * 
+		 * } catch (IOException e) { e.printStackTrace(); } return
+		 * buffer.toString();
+		 */
+	}
+
 	/**
 	 * initialize file contents with template file
 	 * 
@@ -67,17 +92,19 @@ public class FileHandle {
 	 */
 	public InputStream openContentStream(String suffix) {
 
-		if ("cpp".equals(suffix)) {
+		if (".cpp".equals(suffix)) {
 			return this.getClass().getResourceAsStream(
 					"/c3itop/qt/template/Cpp.template");
-		} else if ("pro".equals(suffix)) {
+		} else if (".pro".equals(suffix)) {
 			return this.getClass().getResourceAsStream(
 					"/c3itop/qt/template/Pro.template");
-		} else if ("ui".equals(suffix)) {
+		} else if (".ui".equals(suffix)) {
 			return this.getClass().getResourceAsStream(
 					"/c3itop/qt/template/UI.template");
 		} else {
-			return null;
+
+			/* 将字符串作为一个InputStream返回 */
+			return new ByteArrayInputStream(suffix.getBytes());
 		}
 	}
 
@@ -97,17 +124,16 @@ public class FileHandle {
 	 * @param file
 	 *            需要读取的文件名
 	 */
-	public void readFileByLines(String file) {
+	public String readFileByLines(String file) {
 		BufferedReader reader = null;
+		String context = "";
+		String temp = "";
 		try {
 			reader = new BufferedReader(new FileReader(file));
-			String tempString = null;
-			int line = 1;
-			// 一次读入一行，直到读入null为文件结束
-			while ((tempString = reader.readLine()) != null) {
-				// 显示行号
-				System.out.println("line " + line + ": " + tempString);
-				line++;
+
+			/* 一次读入一行，直到读入null为文件结束 */
+			while ((temp = reader.readLine()) != null) {
+				context += temp;
 			}
 			reader.close();
 		} catch (IOException e) {
@@ -120,5 +146,19 @@ public class FileHandle {
 				}
 			}
 		}
+		return context;
+	}
+
+	/* 使用java包创建文件，传入参数：完整文件名、文件内容 */
+	public File createFileForJava(String pathNmae, String context) {
+		File file = new File(pathNmae);
+		try {
+			FileWriter fw = new FileWriter(file, true);
+			fw.write(context);
+			fw.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		return file;
 	}
 }

@@ -91,20 +91,18 @@ public class QtProjectWizard extends Wizard implements INewWizard {
 		}
 
 		/* 调用createFile方法创建文件 */
-		fileHandle.creadFile(projectDir, cppName, "cpp");
-		fileHandle.creadFile(projectDir, proName, "pro");
-		fileHandle.creadFile(projectDir, uiName, "ui");
-
-		/* 收集得到向导页所选择的的目标平台 */
-		/*
-		 * TargetPlatformMemory.SelectedPlatform = pageTarget
-		 * .getCurTargetPlatform();
-		 */
+		fileHandle.creadFile(projectDir, cppName, ".cpp");
+		fileHandle.creadFile(projectDir, proName, ".pro");
+		fileHandle.creadFile(projectDir, uiName, ".ui");
 
 		/* 创建一个保存向导页选择的目标平台的文件 */
-		fileHandle.createFileForJava(projectDir,
-				pageTarget.getCurTargetPlatform()); // 使用Java包的方式创建的文件
+		fileHandle.creadFile(projectDir, "platform",
+				pageTarget.getCurTargetPlatform());
 
+		/*
+		 * fileHandle.createFileForJava(projectDir,
+		 * pageTarget.getCurTargetPlatform()); // 使用Java包的方式创建的文件
+		 */
 		try {
 			/* 刷新本地资源 */
 			project.refreshLocal(IResource.DEPTH_INFINITE, null);

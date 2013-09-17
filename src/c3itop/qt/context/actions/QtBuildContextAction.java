@@ -20,60 +20,71 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-import org.eclipse.ui.console.ConsolePlugin;
-import org.eclipse.ui.console.IConsole;
-import org.eclipse.ui.console.MessageConsole;
-import org.eclipse.ui.console.MessageConsoleStream;
 
 import c3itop.qt.console.CustomConsole;
 import c3itop.qt.util.FileHandle;
 import c3itop.qt.util.ProjectHandle;
+import c3itop.qt.util.SetVarsAll;
 
-public class QtNmakeContextAction implements IObjectActionDelegate,
+public class QtBuildContextAction implements IObjectActionDelegate,
 		IWorkbenchWindowActionDelegate {
 
 	private IProject project;
+	private String compilerPath = "\"C:\\Program Files\\Microsoft Visual Studio 10.0\\VC\\vcvarsall.bat\"";
 
 	public void run(IAction action) {
 
-		ProjectHandle projectHandle = new ProjectHandle();
 		FileHandle fileHandle = new FileHandle();
 
+		ProjectHandle projectHandle = new ProjectHandle();
 		project = projectHandle.getCurrentProject();
 
-		String qtBatPath = projectHandle.getProjectPath() + "/"
+		/* 获得当前工程的完整路径 */
+		String currProjectPath = projectHandle.getProjectPath() + "/"
 				+ project.getName();
 
-		String qtBatName = qtBatPath + "/temp.bat"; // 临时的Bat文件
+		/* 创建bat文件在当前工程跟目录 */
+		String batName = currProjectPath + "/temp.bat";
 
 		/* 临时Bat文件中的内容：使用VS */
-		// String qtBatContext = qtBatPath + "/make";
-
 		/*
+		 * String qtBatContext = qtBatPath + "/make";
+		 * 
 		 * String qtBatContext = "cd qtBatPath +
 		 * "\n  call \"C:\\Program Files\\Microsoft Visual Studio 10.0\\VC\\vcvarsall.bat\"  \n  nmake \n  goto :eof"
 		 * ;
 		 */
 
-		/* 临时Bat文件中的内容 */
-		String qtBatContext = "cd  F: \n "
-				+ "cd "
-				+ qtBatPath
-				+ "\n    C:/WindRiver-GPPVE-3.6-IA-Eval/wrenv.exe -p vxworks-6.6  \n  make \n  goto :eof";
-		Runtime runtime = Runtime.getRuntime(); // 获得JVM的运行环境
-
-		/* 使用dos命令echo创建临时bat文件，并写入bat内容 */
+		/* 临时Bat文件中的内容 :使用的是风河的编译器 */
 		/*
-		 * try { runtime.exec("cmd /c  echo  " + qtBatContext + "> temp.bat"); }
-		 * catch (IOException e1) { e1.printStackTrace(); }
+		 * String qtBatContext = "cd " + currProjectPath.substring(0, 2) +
+		 * "  \n " + "cd  " + currProjectPath + "\n" +
+		 * "    C:/WindRiver-GPPVE-3.6-IA-Eval/wrenv.exe -p vxworks-6.6  \n  make \n  goto :eof"
+		 * ;
 		 */
+		/* make命令的使用 */
+		/* String s[] = { "make", "-C", qtBatPath }; */
+
+		/* 执行nmake命令 */
+		String batContext = "cd " + currProjectPath.substring(0, 2) + "\r\n"
+				+ "cd " + currProjectPath + "\r\n" + "call " + compilerPath
+				+ "\r\n nmake";
+
+		/* 获得JVM的运行环境 */
+		Runtime runtime = Runtime.getRuntime();
 
 		/* Java新建一个bat文件，写入需要执行的命令 */
-		File file = new FileHandle().createFileForJava(qtBatName, qtBatContext);
+		// new FileHandle().createFileForJava(batName, batContext);
 		try {
-			// String s[] = { "make", "-C", qtBatPath };
 
-			Process proc = runtime.exec(qtBatName);
+			/* 设置WIN32_VS10的环境变量数组 */
+			String WIN32_VS10 = SetVarsAll.WIN32_VS10;
+			String[] setPath = { "path =" + WIN32_VS10 };
+
+			/* 设置进程的工作目录 */
+			File path = new File(currProjectPath);
+
+			Process proc = runtime.exec("nmake", setPath, path);
 
 			/* 使用exec（）方法的参数设置在指定目录下运行 */
 			// Process proc = runtime.exec(qtBatName, null, new
@@ -82,9 +93,7 @@ public class QtNmakeContextAction implements IObjectActionDelegate,
 			InputStream ips = proc.getInputStream();
 			InputStreamReader ipsr = new InputStreamReader(ips);
 			BufferedReader br = new BufferedReader(ipsr);
-
-			String line = null;
-			while ((line = br.readLine()) != null) {
+			while ((br.readLine()) != null) {
 				CustomConsole.printConsole(br.readLine());
 			}
 

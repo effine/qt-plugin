@@ -21,33 +21,42 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
 import c3itop.qt.console.CustomConsole;
+import c3itop.qt.util.FileHandle;
 import c3itop.qt.util.ProjectHandle;
-import c3itop.qt.util.TargetPlatformMemory;
 
 public class QtConfigureContextAction implements IObjectActionDelegate,
 		IWorkbenchWindowActionDelegate {
 
-	private IProject project;
+	private IProject currProject;
 
 	/* configure编译使用的完整路径 */
-	private String platform = TargetPlatformMemory.compilePlatform;
-
-	/*
-	 * private String platform =
-	 * "qmake\\win32\\mkspecs\\vx660-qt483-pentium4-rtp-g++";
-	 */
+	private String compilePath;
 
 	public void run(IAction action) {
 
-		System.out.println("-------------configure使用的目标平台：" + platform);
+		FileHandle fileHandle = new FileHandle();
 		ProjectHandle projectHandle = new ProjectHandle();
-		project = projectHandle.getCurrentProject();
 
-		String qtBatPath = projectHandle.getProjectPath() + "\\"
-				+ project.getName();
+		currProject = projectHandle.getCurrentProject();
+		String projectPath = projectHandle.getProjectPath() + "/"
+				+ currProject.getName();
 
-		String[] conf = { "configure", "-p", "-spec", platform, "-d",
-				qtBatPath, "-mode", "debug", "-platform", "unix" };
+		/* 读取到文件存储的目标平台 */
+		String platform = fileHandle.readFileByLines(projectPath + "/platform");
+
+		/* 构造出configure所需的mkspec */
+		compilePath = "qmake\\win32\\mkspecs\\" + platform;
+
+		/* configure命令数组 */
+		String[] conf = { "configure", "-p", "-spec", compilePath, "-d",
+				projectPath };
+
+		/*
+		 * 执行目标平台：vx660-qt483-pentium4-rtp-g++
+		 * 
+		 * String[] conf = { "configure", "-p", "-spec", platform, "-d",
+		 * qtBatPath, "-mode", "debug", "-platform", "unix" };
+		 */
 
 		Runtime runtime = Runtime.getRuntime(); // 获得JVM的运行环境
 		try {
@@ -71,7 +80,7 @@ public class QtConfigureContextAction implements IObjectActionDelegate,
 			ipsr.close();
 			br.close();
 
-			project.refreshLocal(IResource.DEPTH_INFINITE, null);
+			currProject.refreshLocal(IResource.DEPTH_INFINITE, null);
 
 		} catch (InterruptedException e) {
 			e.printStackTrace();

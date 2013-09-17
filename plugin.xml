@@ -24,7 +24,7 @@
                tooltip="Configure">
          </action>
          <action
-               class="c3itop.qt.context.actions.QtNmakeContextAction"
+               class="c3itop.qt.context.actions.QtBuildContextAction"
                definitionId="c3itop.qt.definitionId.nmake"
                icon="icons/make.gif"
                id="c3itop.qt.nmake_action"
@@ -71,7 +71,7 @@
             </groupMarker>
          </menu>
          <action
-               class="c3itop.qt.context.actions.QtNmakeContextAction"
+               class="c3itop.qt.context.actions.QtBuildContextAction"
                definitionId="c3itop.qt.definitionId.nmake"
                icon="icons/make.gif"
                id="c3itop.qt.nmakeContextAction"
