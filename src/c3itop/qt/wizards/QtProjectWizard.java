@@ -22,7 +22,6 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 import c3itop.qt.util.FileHandle;
-import c3itop.qt.util.TargetPlatformMemory;
 import c3itop.qt.wizards.pages.QtProjectFileWizardPage;
 import c3itop.qt.wizards.pages.QtProjectNameWizardPage;
 import c3itop.qt.wizards.pages.QtTargetWizardPage;

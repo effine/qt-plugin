@@ -15,7 +15,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import c3itop.qt.util.TargetPlatform;
-import c3itop.qt.util.TargetPlatformMemory;
 
 public class QtTargetWizardPage extends WizardPage {
 

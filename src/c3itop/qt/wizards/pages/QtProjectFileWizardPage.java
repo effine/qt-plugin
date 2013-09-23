@@ -8,26 +8,21 @@ package c3itop.qt.wizards.pages;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 public class QtProjectFileWizardPage extends WizardPage {
 
 	private Text proName;
 	private Text cppName;
-	private QtProjectNameWizardPage onePage;
 	private Text uiName;
 
 	public QtProjectFileWizardPage(ISelection selection) {
 		super("Wizardpage");
 		setTitle("Qt Code Project");
 		setDescription("show project default file names .");
-		onePage = new QtProjectNameWizardPage(selection);
+		new QtProjectNameWizardPage(selection);
 	}
 
 	public void createControl(Composite parent) {

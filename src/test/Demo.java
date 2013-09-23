@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 public class Demo {
 
 	public static void main(String[] args) {
+
 		new Demo()
 				.readFileByLines("F:/runtime-EclipseApplication/hello/platform");
 	}
